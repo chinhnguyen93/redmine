@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  issue_name: MyString
+  issue_decription: MyString
+  user_id: 1
+  assign_id: 1
+  project_id: 1
+  start_date: 2017-03-30
+  due_date: 2017-03-30
+
+two:
+  issue_name: MyString
+  issue_decription: MyString
+  user_id: 1
+  assign_id: 1
+  project_id: 1
+  start_date: 2017-03-30
+  due_date: 2017-03-30

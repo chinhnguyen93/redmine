@@ -1,0 +1,79 @@
+@import 'bootstrap';
+.navbar{
+	margin-bottom: 0;
+}
+.navbar-default .navbar-brand{
+	color: #FF5252;
+	font-weight: 700;
+}
+.navbar-inverse .navbar-brand{
+	margin-right: 15px;
+	color: #FFF;
+	font-weight: bold;
+}
+.navbar-inverse .navbar-nav > li > a{
+	color: #FFF;
+	font-size: 20px;
+	font-weight: bold;
+}
+h1{
+	text-align: center;
+}
+.form-control{
+	margin: 10px 0;
+}
+.navbar-right{
+	margin-right: 0px;
+}
+.navbar-default .navbar-nav > li > a{
+	color: grey;
+	font-weight: 500;
+	font-size: 18px;
+}
+#navb{
+	margin-bottom: 10px;
+}
+p{
+	font-size: 14px;
+	font-weight: 600;
+}
+.backgr{
+	background-color: #000;
+	border-radius: 5px;
+	margin-top: 20px;
+}
+.btn-primary{
+	margin-left: -15px;
+}
+.display{
+	color: #FFF;
+}
+.btn-info{
+	background-color: pink;
+	font-weight: 600;
+	color: #000;
+}
+.link{
+	color: light-blue;
+	font-size: 20px;
+	font-weight: bold;
+}
+.link:hover{
+	text-decoration: none;
+	color: #FFEB3B;
+}
+.rieng{
+	margin-left: 0;
+}
+.str{
+	margin-left: 25px;
+}
+.show_user{
+	margin-top: 15px;
+}
+.navbar-inverse{
+	background-color: #CCFF90;
+}
+.navbar-inverse .navbar-nav > li > a{
+	color: #000;
+}

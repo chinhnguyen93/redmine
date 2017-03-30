@@ -1,0 +1,13 @@
+<% provide(:title, "User - #{@user.account}") %>
+<p class="show_user">Account: <%= @user.account %><br/></p>
+<p>Email: <%= @user.email %><br/></p>
+<%= link_to "Add project", new_project_path, class: "btn btn-info" %>
+<div class="container backgr">
+	<% @user.projects.each do |pr| %>
+		<br/>
+		<%= link_to "ID: #{pr.id}", "/projects/#{pr.id}", class: "link" %>
+		<p class="display">People created: <%= pr.user.account %></p>
+		<p class="display">Project name: <%= pr.project_name %></p>
+		<p class="display">Description: <%= pr.description %></p>
+	<% end %>
+</div>

@@ -1,0 +1,12 @@
+<% provide(:title, "Issue - #{@issue.id}") %>
+<% assign = User.find(@issue.assign_id) %>
+<div class="row">
+	<div class="col-md-6">
+		<p>Subject: <%= @issue.issue_name %><br/></p>
+		<p>Decription: <%= @issue.issue_decription %><br/></p>
+	</div>
+	<div class="col-md-6">
+		<strong>Manager: </strong> <%= @issue.user.account %><br/>
+		<strong>Developer: </strong> <%= assign.account %>
+	</div>
+</div>

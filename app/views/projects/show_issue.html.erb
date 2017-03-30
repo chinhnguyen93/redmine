@@ -1,0 +1,9 @@
+<% provide(:title, "All issue") %>
+<% @project.issues.each do |pr| %>
+	<% assign = User.find(pr.assign_id) %>
+	<p>Subject: <%= link_to pr.issue_name, "show_issue_create/#{pr.id}" %></p>
+	Decription: <%= pr.issue_decription %><br/>
+	Developer: <%= assign.account %>
+	<br/>
+	<br/>
+<% end %>

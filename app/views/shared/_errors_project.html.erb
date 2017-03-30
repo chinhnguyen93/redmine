@@ -1,0 +1,10 @@
+<% if @project.errors.any? %>
+<div class="alert alert-danger">
+	The form contains <%= @project.errors.count %> errors
+</div>
+	<ul>
+		<% @project.errors.full_messages.each do |err| %>
+			<li><%= err %></li>
+		<% end %>
+	</ul>
+<% end %>
