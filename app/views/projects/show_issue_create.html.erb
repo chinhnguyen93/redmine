@@ -3,10 +3,13 @@
 <div class="row">
 	<div class="col-md-6">
 		<p>Subject: <%= @issue.issue_name %><br/></p>
-		<p>Decription: <%= @issue.issue_decription %><br/></p>
+		<p>Decription: <%= simple_format(@issue.issue_decription) %><br/></p>
 	</div>
 	<div class="col-md-6">
 		<strong>Manager: </strong> <%= @issue.user.account %><br/>
 		<strong>Developer: </strong> <%= assign.account %>
 	</div>
 </div>
+
+<%= link_to "Edit issue", "/projects/#{@project.id}/edit_issue/#{@issue.id}", class: 'btn btn-info' %>
+<%= link_to "Delete issue", "/projects/#{@project.id}/delete_issue/#{@issue.id}", method: :delete, data: { confirm: "Are you sure" }, class: 'btn btn-info' %>

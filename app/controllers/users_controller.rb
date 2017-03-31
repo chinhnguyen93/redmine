@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   	@user = User.new(params_user)
   	if @user.save
   		UserMailer.account_activation(@user).deliver_now
-      flash[:info] = "Please check your email to activate your account."
+      flash.now[:info] = "Please check your email to activate your account."
       redirect_to root_url
   	else
   		render 'new'
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update_attributes(params_user)
-      flash[:success] = "Your profile is successfull updated"
+      flash.now[:success] = "Your profile is successfull updated"
       redirect_to @user
     else
       render 'edit'
@@ -37,14 +37,14 @@ class UsersController < ApplicationController
 
   def login
     if !logged_in
-      flash[:danger] = "You are not log in. Please log in di!"
+      flash.now[:danger] = "You are not log in. Please log in di!"
       redirect_to signin_path
     end
   end
 
   def correct_user
     return true if current_user == User.find(params[:id])
-    flash[:danger] = "You cant edit another user"
+    flash.now[:danger] = "You cant edit another user"
     redirect_to root_url
   end
 

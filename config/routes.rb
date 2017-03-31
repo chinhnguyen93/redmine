@@ -23,9 +23,15 @@ Rails.application.routes.draw do
 
   post '/projects/:id/create_issue', to: 'projects#create_issue'
 
-  get '/projects/:id/show_issue_create/:id', to: 'projects#show_issue_create'
+  get '/projects/:id/show_issue_create/:iid', to: 'projects#show_issue_create'
+
+  get '/projects/:id/edit_issue/:iid', to: 'projects#edit_issue'
+
+  patch '/projects/:id/update_issue/:iid', to: 'projects#update_issue'
 
   get '/projects/:id/show_issue', to: 'projects#show_issue'
+
+  delete '/projects/:id/delete_issue/:iid', to: 'projects#destroy_issue'
 
   default_url_options :host => "localhost:3000"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

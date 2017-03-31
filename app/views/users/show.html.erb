@@ -8,6 +8,6 @@
 		<%= link_to "ID: #{pr.id}", "/projects/#{pr.id}", class: "link" %>
 		<p class="display">People created: <%= pr.user.account %></p>
 		<p class="display">Project name: <%= pr.project_name %></p>
-		<p class="display">Description: <%= pr.description %></p>
+		<p class="display">Description:</p><%= simple_format(pr.description) %>
 	<% end %>
 </div>

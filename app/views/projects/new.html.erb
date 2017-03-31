@@ -10,7 +10,8 @@
 
       <%= f.label :description %>
       <%= f.text_area :description, class: 'form-control', rows: "4" %>
-
+      
+      <%= f.hidden_field :user_id, :value => current_user.id %>
       <%= f.submit "Create project", class: "btn btn-info" %>
     <% end %>
   </div>

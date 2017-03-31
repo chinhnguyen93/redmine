@@ -5,29 +5,51 @@ class ProjectsController < ApplicationController
 	end
 	def create
 		@project = Project.new(params_project)
-		@project.update_attribute(:user_id, current_user.id)
-		if @project.save
-			flash[:success] = "Create project success"
-			render 'show'
+		if @project.valid?
+			flash.now[:success] = "Create project success"
+			@project.save
+			redirect_to "/projects/#{@project.id}"
 		else
 			render 'new'
 		end
 	end
 
 	def show
-			@project = Project.find(params[:id])
+		@project = Project.find(params[:id])
+	end
+
+	def edit
+		@project = Project.find(params[:id])
+	end
+
+	def update
+		@project = Project.find(params[:id])
+		if @project.update_attributes(params_project)
+			flash.now[:success] = "Your project is successfull updated"
+			render 'show'
+		else
+			flash.now[:danger] = "Project update fail"
+			render 'edit'
+		end
 	end
 	
+	def destroy
+		project = Project.find(params[:id])
+		project.destroy
+		flash.now[:success] = "Project deleted"
+		redirect_to "/users/#{project.user.id}"
+	end
+
 	def new_issue
 		@issue = Issue.new
 		@project = Project.find(params[:id])
 	end
 
 	def create_issue
-		@issue = Issue.new(params_issue)
 		@project = Project.find(params[:id])
+		@issue = Issue.new(params_issue)
 		if @issue.save
-			flash[:success] = "Create issue success"
+			flash.now[:success] = "Create issue success"
 			render 'show_issue'
 		else
 			render 'new_issue'
@@ -35,13 +57,37 @@ class ProjectsController < ApplicationController
 	end
 
 	def show_issue_create
-		@issue = Issue.find(params[:id])
+		@issue = Issue.find(params[:iid])
+		@project = Project.find(params[:id])
 	end
 
 	def show_issue
 		@project = Project.find(params[:id])
 	end
 
+	def edit_issue
+		@project = Project.find(params[:id])
+		@issue = Issue.find(params[:iid])
+	end
+
+	def update_issue
+		@project = Project.find(params[:id])
+		@issue = Issue.find(params[:iid])
+		if @issue.update_attributes(params_issue)
+			flash.now[:success] = "Your issue is successfull updated"
+			render 'show_issue_create'
+		else
+			flash.now[:danger] = "Issue update fail"
+			render 'edit_issue'
+		end
+	end
+
+	def destroy_issue
+		issue = Issue.find(params[:iid])
+		issue.destroy
+		flash.now[:success] = "Issue deleted"
+		redirect_to "/projects/#{issue.project_id}/show_issue"
+	end
 	private
 		def params_project
 			params.require(:project).permit(:project_name, :description, :user_id)

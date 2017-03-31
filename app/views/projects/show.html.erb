@@ -1,33 +1,7 @@
 <% provide(:title, "#{@project.user.account} - Project #{@project.id}") %>
-<% if !@project.nil? %>
-	<nav class="navbar navbar-default", id="navb">
-    <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <nav>
-              <ul class="nav navbar-nav">
-                <li><%= link_to "Overview", "#" %></li>
-              </ul> 
-            </nav>
-          </div>
-          <div class="col-md-4">
-            <nav>
-              <ul class="nav navbar-nav">
-                <li><%= link_to "Issue", "#{@project.id}/show_issue" %></li>
-              </ul>
-            </nav>
-          </div>
-          <div class="col-md-4">
-            <nav>
-              <ul class="nav navbar-nav">
-                <li><%= link_to "New issue", "#{@project.id}/new_issue" %></li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-    </div>
-  </nav>
-<% end %>
+
 <p>People created: <%= @project.user.account %></p>
 <p>Project name: <%= @project.project_name %></p>
-<p>Description: <%= @project.description %></p>
+<p>Description:</p> <%= simple_format(@project.description) %>
+<%= link_to "Edit project", edit_project_path, class: 'btn btn-info' %>
+<%= link_to "Delete project", project_path, method: :delete, data: { confirm: "Are you sure?" },class: 'btn btn-info' %>
