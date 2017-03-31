@@ -1,9 +1,23 @@
 <% provide(:title, "All issue") %>
-<% @project.issues.each do |pr| %>
-	<% assign = User.find(pr.assign_id) %>
-	<p>Subject: <%= link_to pr.issue_name, "show_issue_create/#{pr.id}" %></p>
-	Decription: <%= pr.issue_decription %><br/>
-	Developer: <%= assign.account %>
-	<br/>
-	<br/>
+<% if @project.issues.nil? %>
+
+<% else %>
+	<% @project.issues.each do |pr| %>
+		<% assign = User.find(pr.assign_id) %>
+		<% user = User.find(pr.user_id) %>
+		<div class="row">
+			<div class="col-md-6">
+				<p>Subject: <%= link_to pr.issue_name, "show_issue_create/#{pr.id}" %></p>
+				Decription: <%= simple_format(pr.issue_decription) %><br/>
+			</div>
+			<div class="col-md-6">
+				<strong>Manager:</strong> <%= user.account %><br/>
+				<strong>Developer:</strong> <%= assign.account %><br/>
+			</div>
+		</div>
+		
+		
+		<br/>
+		<br/>
+	<% end %>
 <% end %>

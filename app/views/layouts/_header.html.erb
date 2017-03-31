@@ -5,8 +5,8 @@
         <li><%= link_to image_tag("logo.png", :height => 17), root_url %></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <% if logged_in %>
-          <li><%= link_to "Users", '#' %></li>
+        <% if logged_in || @project %>
+          <li><%= link_to "Users", current_user %></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 Account <b class="caret"></b>
@@ -30,3 +30,32 @@
     </nav>
 	</div>
 </nav>
+<% if !@project.nil? %>
+  <nav class="navbar navbar-default", id="navb">
+    <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <nav>
+              <ul class="nav navbar-nav">
+                <li><%= link_to "Overview", "/projects/#{@project.id}/show_issue" %></li>
+              </ul> 
+            </nav>
+          </div>
+          <div class="col-md-4">
+            <nav>
+              <ul class="nav navbar-nav">
+                <li><%= link_to "Issue", "/projects/#{@project.id}/show_issue" %></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="col-md-4">
+            <nav>
+              <ul class="nav navbar-nav">
+                <li><%= link_to "New issue", "/projects/#{@project.id}/new_issue" %></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+    </div>
+  </nav>
+<% end %>

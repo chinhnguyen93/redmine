@@ -1,5 +1,6 @@
 <% provide(:title,"Create issue") %>
 <h1>Create issue</h1>
+<% @project = Project.find(params[:id]) %>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <%= form_for(@issue, url: "create_issue", method: :post) do |f| %>
