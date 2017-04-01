@@ -1,0 +1,25 @@
+<% provide(:title, "Add developer") %>
+<% if @project.assign_id == nil %>
+	<div class="row">
+		<div class="col-md-6">
+			<p>Project name: <%= @project.project_name %></p>
+			<p>Description:</p> <%= simple_format(@project.description) %>
+		</div>
+		<div class="col-md-6">
+			<strong>Manager:</strong> <%= @project.user.account %><br/>
+			<strong>Developer:</strong> Nobody
+		</div>
+	</div>
+<% else %>
+	<% @user = User.find(@project.assign_id) %>
+	<div class="row">
+		<div class="col-md-6">
+			<p>Project name: <%= @project.project_name %></p>
+			<p>Description:</p> <%= simple_format(@project.description) %>
+		</div>
+		<div class="col-md-6">
+			<strong>Manager:</strong> <%= @project.user.account %><br/>
+			<strong>Developer:</strong> <%= @user.account %>
+		</div>
+	</div>
+<% end %>
