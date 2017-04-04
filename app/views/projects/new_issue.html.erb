@@ -1,6 +1,6 @@
 <% provide(:title,"Create issue") %>
 <h1>Create issue</h1>
-<% @project = Project.find(params[:id]) %>
+<% @project = Project.find(params[:iid]) %>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <%= form_for(@issue, url: "create_issue", method: :post) do |f| %>
@@ -25,7 +25,7 @@
       
       <%= f.hidden_field :project_id, :value => @project.id,class: 'form-control' %>
 
-      <%= f.hidden_field :user_id, :value => @project.user.id,class: 'form-control' %>
+      <%= f.hidden_field :user_id, :value => @user.id,class: 'form-control' %>
 
       <%= f.label :due_date, class: 'str' %>
       <%= f.date_select :due_date, class: 'form-control' %>

@@ -1,13 +1,17 @@
 <% provide(:title, "User - #{@user.account}") %>
 <p class="show_user">Account: <%= @user.account %><br/></p>
 <p>Email: <%= @user.email %><br/></p>
-<%= link_to "Add project", new_project_path, class: "btn btn-info" %>
+<%= link_to "Add project", "/users/#{@user.id}/projects/new", class: "btn btn-info" %>
 <div class="container backgr">
-	<% @user.projects.each do |pr| %>
-		<br/>
-		<%= link_to "ID: #{pr.id}", "/projects/#{pr.id}", class: "link" %>
-		<p class="display">People created: <%= pr.user.account %></p>
-		<p class="display">Project name: <%= pr.project_name %></p>
-		<p class="display">Description:</p><%= simple_format(pr.description) %>
+	<% @relation = Relation.where(assign_id: @user.id) %>
+	<% if @relation %>
+		<% @relation.each do |pr| %>
+			<% project = Project.find(pr.project_id) %>
+			<% user = User.find(project.user_id) %>
+			<%= link_to "ID: #{project.id}", "/users/#{@user.id}/projects/#{project.id}", class: "link" %>
+			<p class="display">People created: <%= user.account %></p>
+			<p class="display">Project name: <%= project.project_name %></p>
+			<p class="display">Description:</p><%= simple_format(project.description) %>
+		<% end %>
 	<% end %>
 </div>

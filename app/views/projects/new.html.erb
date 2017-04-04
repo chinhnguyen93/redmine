@@ -2,17 +2,21 @@
 <h1>Create project</h1>
 <div class="row">
   <div class="col-md-4 col-md-offset-4">
-    <%= form_for(@project, url: projects_path, method: :post) do |f| %>
-
+    <% if @user.nil? %>
       <%= render 'shared/errors_project' %>
-			<%= f.label :project_name, "Project name" %>
-      <%= f.text_field :project_name, class: 'form-control' %>
+    <% else %>
+      <%= form_for(@project, url: "/users/#{@user.id}/projects", method: :post) do |f| %>
 
-      <%= f.label :description %>
-      <%= f.text_area :description, class: 'form-control', rows: "4" %>
-      
-      <%= f.hidden_field :user_id, :value => current_user.id %>
-      <%= f.submit "Create project", class: "btn btn-info" %>
+        <%= render 'shared/errors_project' %>
+  			<%= f.label :project_name, "Project name" %>
+        <%= f.text_field :project_name, class: 'form-control' %>
+
+        <%= f.label :description %>
+        <%= f.text_area :description, class: 'form-control', rows: "4" %>
+        
+        <%= f.hidden_field :user_id, :value => @user.id %>
+        <%= f.submit "Create project", class: "btn btn-info" %>
+      <% end %>
     <% end %>
   </div>
 </div>
