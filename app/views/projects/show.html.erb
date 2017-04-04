@@ -1,7 +1,11 @@
-<% provide(:title, "#{@project.user.account} - Project #{@project.id}") %>
+<% boss_project = User.find(@project.user_id) %>
+<% provide(:title, "#{boss_project.account} - Project #{@project.id}") %>
 
-<p>People created: <%= @project.user.account %></p>
+<p>People created: <%= boss_project.account %></p>
 <p>Project name: <%= @project.project_name %></p>
 <p>Description:</p> <%= simple_format(@project.description) %>
-<%= link_to "Edit project", edit_project_path, class: 'btn btn-info' %>
-<%= link_to "Delete project", project_path, method: :delete, data: { confirm: "Are you sure?" },class: 'btn btn-info' %>
+<% if User.find(params[:id]).id ==  @project.user_id %>
+	<%= link_to "Edit project", "/project/#{@project.id}/edit", class: 'btn btn-info' %>
+	<%= link_to "Delete project", project_path(@project.id), method: :delete, data: { confirm: "Are you sure?" },class: 'btn btn-info' %>
+	<%= link_to "Add developer", "/projects/#{@project.id}/add_developers/new", class: 'btn btn-info' %>
+<% end %>

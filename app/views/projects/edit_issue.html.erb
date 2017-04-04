@@ -24,7 +24,7 @@
       
       <%= f.hidden_field :project_id, :value => @project.id,class: 'form-control' %>
 
-      <%= f.hidden_field :user_id, :value => @project.user.id,class: 'form-control' %>
+      <%= f.hidden_field :user_id, :value => @project.user_id,class: 'form-control' %>
 
       <%= f.label :due_date, class: 'str' %>
       <%= f.date_select :due_date, class: 'form-control' %>

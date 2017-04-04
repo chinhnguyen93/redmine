@@ -1,6 +1,7 @@
 class User < ApplicationRecord
-  has_many :projects
   has_many :issues
+  has_many :relations
+  has_many :projects, :through => :relations
 	attr_accessor :activation_token
 	before_create :create_activation_digest
 	before_save :downcase_account

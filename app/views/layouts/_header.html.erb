@@ -23,7 +23,7 @@
         <% else %>
       		<ul class="nav navbar-nav navbar-right">
       			<li><%= link_to "Sign in", signin_path %></li>
-            <li><%= link_to "Sign up", new_user_path %></li>
+            <li><%= link_to "Sign up", "/new" %></li>
           </ul>
         <% end %>
       </ul>
@@ -37,21 +37,21 @@
           <div class="col-md-4">
             <nav>
               <ul class="nav navbar-nav">
-                <li><%= link_to "Overview", "/projects/#{@project.id}/show_issue" %></li>
+                <li><%= link_to "Overview", "/users/#{current_user.id}/projects/#{@project.id}/show_issue" %></li>
               </ul> 
             </nav>
           </div>
           <div class="col-md-4">
             <nav>
               <ul class="nav navbar-nav">
-                <li><%= link_to "Issue", "/projects/#{@project.id}/show_issue" %></li>
+                <li><%= link_to "Issue", "/users/#{current_user.id}/projects/#{@project.id}/show_issue" %></li>
               </ul>
             </nav>
           </div>
           <div class="col-md-4">
             <nav>
               <ul class="nav navbar-nav">
-                <li><%= link_to "New issue", "/projects/#{@project.id}/new_issue" %></li>
+                <li><%= link_to "New issue", "/users/#{current_user.id}/projects/#{@project.id}/new_issue" %></li>
               </ul>
             </nav>
           </div>
