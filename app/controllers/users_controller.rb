@@ -44,8 +44,16 @@ class UsersController < ApplicationController
 
   def correct_user
     return true if current_user == User.find(params[:id])
-    flash.now[:danger] = "You cant edit another user"
+    flash[:danger] = "You cant edit another user"
     redirect_to root_url
+  end
+
+  def current_user_
+    if logged_in
+      redirect_to current_user
+    else
+      redirect_to '/sessions/new'
+    end
   end
 
   private

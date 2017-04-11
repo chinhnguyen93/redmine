@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
 	skip_before_filter :verify_authenticity_token, only: [:create]
+	before_action :correct_user, only: [:edit, :update]
 	def new
 		@project = Project.new
 		@user = User.find(params[:id])
@@ -26,10 +27,10 @@ class ProjectsController < ApplicationController
 	end
 
 	def update
-		@project = Project.find(params[:id])
-		if @project.update_attributes(params_edit_project)
+		@project = Project.find(params[:iid])
+		if @project.update_attributes(params_project_edit)
 			flash.now[:success] = "Your project is successfull updated"
-			render 'show'
+			redirect_to "/users/#{@project.user_id}/projects/#{@project.id}"
 		else
 			flash.now[:danger] = "Project update fail"
 			render 'edit'
@@ -95,12 +96,21 @@ class ProjectsController < ApplicationController
 		user = User.find(current_user.id)
 		redirect_to "/users/#{user.id}/projects/#{issue.project_id}/show_issue"
 	end
+
+	def correct_user
+		project = Project.find(params[:iid])
+		user = User.find(project.user_id)
+    return true if current_user == user
+    flash[:danger] = "You cant edit another user"
+    redirect_to root_url
+  end
+
 	private
 		def params_project
 			params.require(:project).permit(:project_name,:description,:user_id)
 		end
-		def params_edit_project
-			params.require(:project).permit(:project_name, :description)
+		def params_project_edit
+			params.require(:project).permit(:project_name,:description)
 		end
 		def params_issue
 			params.require(:issue).permit(:issue_name,:issue_decription,:assign_id,:project_id,:user_id,:start_date,:due_date)

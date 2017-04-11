@@ -5,7 +5,7 @@
 <p>Project name: <%= @project.project_name %></p>
 <p>Description:</p> <%= simple_format(@project.description) %>
 <% if User.find(params[:id]).id ==  @project.user_id %>
-	<%= link_to "Edit project", "/project/#{@project.id}/edit", class: 'btn btn-info' %>
+	<%= link_to "Edit project", "/projects/#{@project.id}/edit", class: 'btn btn-info' %>
 	<%= link_to "Delete project", project_path(@project.id), method: :delete, data: { confirm: "Are you sure?" },class: 'btn btn-info' %>
 	<%= link_to "Add developer", "/projects/#{@project.id}/add_developers/new", class: 'btn btn-info' %>
 <% end %>

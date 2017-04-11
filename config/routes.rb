@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   post '/signup', to: 'users#create'
 
   # get 'signin', to: 'sessions#new'
-  root 'sessions#new'
+  root "users#current_user_"
 
   post 'signin', to: 'sessions#create'
 
@@ -23,10 +23,14 @@ Rails.application.routes.draw do
 
   resources :account_activations, only: [:edit]
 
-  resources :projects, only: [:update,:index,:destroy]
+  resources :projects, only: [:index,:destroy]
   get '/new', to: 'users#new'
 
-  get '/project/:iid/edit', to: 'projects#edit'
+  get '/projects/:iid/edit', to: 'projects#edit'
+
+  get '/projects/:iid', to: 'projects#update'
+
+  patch '/projects/:iid', to: 'projects#update'
 
   get '/users/:id/projects/new', to: 'projects#new'
 
