@@ -8,7 +8,7 @@
 		<% @relation.each do |pr| %>
 			<% project = Project.find(pr.project_id) %>
 			<% user = User.find(project.user_id) %>
-			<%= link_to "ID: #{project.id}", "/users/#{@user.id}/projects/#{project.id}", class: "link" %>
+			<%= link_to "ID: #{project.id}", "/projects/#{project.id}", class: "link" %>
 			<p class="display">People created: <%= user.account %></p>
 			<p class="display">Project name: <%= project.project_name %></p>
 			<p class="display">Description:</p><%= simple_format(project.description) %>

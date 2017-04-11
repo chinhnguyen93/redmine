@@ -80,3 +80,35 @@ p{
 .abc{
 	color: yellow;
 }
+.naq{
+	background-color: #F3E5F5;
+	margin-top: 0;
+}
+.btnr{
+	position: relative;
+	margin-top: 7px;
+  margin-right: 30px;
+  width: 160px;
+}
+#prj{
+	position: absolute;
+	display: none;
+	width: 160px;
+	border-radius: 5px;
+	background-color: #000;
+}
+#prj > ul > li{
+	list-style-type: none;
+	margin-bottom: 2px;
+}
+.dsprj{
+	margin-left: 10px;
+	font-weight: bold;
+}
+a{
+	color: #FFF;
+}
+a:hover{
+	text-decoration: none;
+	color: yellow;
+}

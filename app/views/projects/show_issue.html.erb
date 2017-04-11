@@ -4,7 +4,7 @@
 <% else %>
 	<% @project.issues.each do |pr| %>
 		<% assign = User.find(pr.assign_id) %>
-		<% user = User.find(params[:id]) %>
+		<% user = User.find(current_user.id) %>
 		<div class="row">
 			<div class="col-md-6">
 				<p>Subject: <%= link_to pr.issue_name, "show_issue_create/#{pr.id}" %></p>

@@ -13,7 +13,7 @@
               </a>
               <ul class="dropdown-menu">
                 <li><%= link_to "Profile", current_user %></li>
-                <li><%= link_to "Settings", "#" %></li> <!--edit_user_path(current_user)-->
+                <li><%= link_to "Settings", edit_user_path(current_user) %></li> <!---->
                 <li class="divider"></li>
                 <li>
                   <%= link_to "Log out", signout_path, method: "delete" %>
@@ -30,6 +30,7 @@
     </nav>
 	</div>
 </nav>
+
 <% if !@project.nil? %>
   <nav class="navbar navbar-default", id="navb">
     <div class="container">
@@ -37,25 +38,42 @@
           <div class="col-md-4">
             <nav>
               <ul class="nav navbar-nav">
-                <li><%= link_to "Overview", "/users/#{current_user.id}/projects/#{@project.id}/show_issue" %></li>
+                <li><%= link_to "Overview", "/projects/#{@project.id}/show_issue" %></li>
               </ul> 
             </nav>
           </div>
           <div class="col-md-4">
             <nav>
               <ul class="nav navbar-nav">
-                <li><%= link_to "Issue", "/users/#{current_user.id}/projects/#{@project.id}/show_issue" %></li>
+                <li><%= link_to "Issue", "/projects/#{@project.id}/show_issue" %></li>
               </ul>
             </nav>
           </div>
           <div class="col-md-4">
             <nav>
               <ul class="nav navbar-nav">
-                <li><%= link_to "New issue", "/users/#{current_user.id}/projects/#{@project.id}/new_issue" %></li>
+                <li><%= link_to "New issue", "/projects/#{@project.id}/new_issue" %></li>
               </ul>
             </nav>
           </div>
         </div>
+    </div>
+  </nav>
+<% end %>
+
+<% if logged_in %>
+  <nav class="navbar navbar-inverse naq">
+    <div class="nav navbar navbar-right">
+      <button class="btn btn-danger btnr">Select project</button>
+      <div id="prj">
+        <ul style="margin-top: 7px;">
+          <% rela = Relation.where(assign_id: current_user.id) %>
+          <% rela.each do |pr| %>
+            <% project = Project.find(pr.project_id) %>
+            <li><%= link_to project.project_name, "/projects/#{project.id}", class: 'dsprj' %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </nav>
 <% end %>

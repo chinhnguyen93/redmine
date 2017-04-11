@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
 	skip_before_filter :verify_authenticity_token, only: [:create]
-	before_action :correct_user, only: [:edit, :update]
+	before_action :correct_user, only: [:edit, :update, :destroy]
+	before_action :correct_user_issue, only: [:edit_issue, :update_issue, :destroy_issue]
 	def new
 		@project = Project.new
 		@user = User.find(params[:id])
@@ -30,7 +31,7 @@ class ProjectsController < ApplicationController
 		@project = Project.find(params[:iid])
 		if @project.update_attributes(params_project_edit)
 			flash.now[:success] = "Your project is successfull updated"
-			redirect_to "/users/#{@project.user_id}/projects/#{@project.id}"
+			render 'show'
 		else
 			flash.now[:danger] = "Project update fail"
 			render 'edit'
@@ -47,24 +48,22 @@ class ProjectsController < ApplicationController
 	def new_issue
 		@issue = Issue.new
 		@project = Project.find(params[:iid])
-		@user = User.find(params[:id])
 	end
 
 	def create_issue
-		@user = User.find(params[:id])
 		@project = Project.find(params[:iid])
 		@issue = Issue.new(params_issue)
 		if @issue.save
 			flash.now[:success] = "Create issue success"
-			redirect_to "/users/#{@user.id}/projects/#{@project.id}/show_issue"
+			redirect_to "/projects/#{@project.id}/show_issue"
 		else
-			redirect_to "/users/#{@user.id}/projects/#{@project.id}/new_issue"
+			redirect_to "/projects/#{@project.id}/new_issue"
 		end
 	end
 
 	def show_issue_create
-		@issue = Issue.find(params[:iid])
-		@project = Project.find(params[:id])
+		@issue = Issue.find(params[:id])
+		@project = Project.find(params[:iid])
 	end
 
 	def show_issue
@@ -72,13 +71,13 @@ class ProjectsController < ApplicationController
 	end
 
 	def edit_issue
-		@project = Project.find(params[:id])
-		@issue = Issue.find(params[:iid])
+		@project = Project.find(params[:iid])
+		@issue = Issue.find(params[:id])
 	end
 
 	def update_issue
-		@project = Project.find(params[:id])
-		@issue = Issue.find(params[:iid])
+		@project = Project.find(params[:iid])
+		@issue = Issue.find(params[:id])
 		if @issue.update_attributes(params_issue)
 			flash.now[:success] = "Your issue is successfull updated"
 			render 'show_issue_create'
@@ -89,12 +88,12 @@ class ProjectsController < ApplicationController
 	end
 
 	def destroy_issue
-		issue = Issue.find(params[:iid])
+		issue = Issue.find(params[:id])
 		issue.destroy
 		flash.now[:success] = "Issue deleted"
 		project = Project.find(issue.project_id)
 		user = User.find(current_user.id)
-		redirect_to "/users/#{user.id}/projects/#{issue.project_id}/show_issue"
+		redirect_to "/projects/#{issue.project_id}/show_issue"
 	end
 
 	def correct_user
@@ -103,6 +102,13 @@ class ProjectsController < ApplicationController
     return true if current_user == user
     flash[:danger] = "You cant edit another user"
     redirect_to root_url
+  end
+
+  def correct_user_issue
+  	issue = Issue.find(params[:id])
+  	return true if current_user.id == issue.user_id
+  	flash[:danger] = "You are not issue of manager"
+  	redirect_to "/projects/#{issue.project_id}/show_issue"
   end
 
 	private

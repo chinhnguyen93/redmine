@@ -28,29 +28,27 @@ Rails.application.routes.draw do
 
   get '/projects/:iid/edit', to: 'projects#edit'
 
-  get '/projects/:iid', to: 'projects#update'
-
   patch '/projects/:iid', to: 'projects#update'
 
   get '/users/:id/projects/new', to: 'projects#new'
 
   post '/users/:id/projects', to: 'projects#create'
   
-  get '/users/:id/projects/:iid/new_issue', to: 'projects#new_issue'
+  get '/projects/:iid/new_issue', to: 'projects#new_issue'
 
-  post '/users/:id/projects/:iid/create_issue', to: 'projects#create_issue'
+  get '/projects/:iid/show_issue', to: 'projects#show_issue'
 
-  get '/users/:jd/projects/:id/show_issue_create/:iid', to: 'projects#show_issue_create'
+  post '/projects/:iid/create_issue', to: 'projects#create_issue'
 
-  get '/users/:jd/projects/:id/edit_issue/:iid', to: 'projects#edit_issue'
+  get '/projects/:iid/show_issue_create/:id', to: 'projects#show_issue_create'
 
-  patch '/projects/:id/update_issue/:iid', to: 'projects#update_issue'
+  get '/projects/:iid/edit_issue/:id', to: 'projects#edit_issue'
 
-  get '/users/:id/projects/:iid/show_issue', to: 'projects#show_issue'
+  patch '/projects/:iid/update_issue/:id', to: 'projects#update_issue'
 
-  delete '/projects/:id/delete_issue/:iid', to: 'projects#destroy_issue'
+  delete '/projects/:iid/delete_issue/:id', to: 'projects#destroy_issue'
 
-  get 'users/:id/projects/:iid', to: 'projects#show'
+  get '/projects/:iid', to: 'projects#show'
 
   default_url_options :host => "localhost:3000"
 

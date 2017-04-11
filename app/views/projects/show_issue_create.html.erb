@@ -11,6 +11,7 @@
 		<strong>Developer: </strong> <%= assign.account %>
 	</div>
 </div>
-
-<%= link_to "Edit issue", "/users/#{current_user.id}/projects/#{@project.id}/edit_issue/#{@issue.id}", class: 'btn btn-info' %>
+<% if user == current_user %>
+<%= link_to "Edit issue", "/projects/#{@project.id}/edit_issue/#{@issue.id}", class: 'btn btn-info' %>
 <%= link_to "Delete issue", "/projects/#{@project.id}/delete_issue/#{@issue.id}", method: :delete, data: { confirm: "Are you sure" }, class: 'btn btn-info' %>
+<% end %>

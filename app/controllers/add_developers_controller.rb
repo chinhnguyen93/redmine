@@ -8,7 +8,7 @@ class AddDevelopersController < ApplicationController
   	project = Project.find(@relation.project_id)
   	if @relation.valid? && @relation.assign_id != project.user_id
 			@relation.save
-			flash.now[:success] = "Success"
+			flash[:success] = "Add developer success"
 			redirect_to "/users/#{project.user_id}"
   	else
 			flash.now[:danger] = "This user is manager"
