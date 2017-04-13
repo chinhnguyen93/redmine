@@ -73,9 +73,9 @@ p{
 }
 .navbar-inverse{
 	background-color: #CCFF90;
-}
-.navbar-inverse .navbar-nav > li > a{
-	color: #000;
+	.navbar-nav > li > a{
+		color: #000;
+	}
 }
 .abc{
 	color: yellow;
@@ -106,9 +106,12 @@ p{
 	font-weight: bold;
 }
 a{
-	color: #FFF;
+	color: blue;
 }
 a:hover{
 	text-decoration: none;
 	color: yellow;
+}
+.test2{
+	display: none;
 }

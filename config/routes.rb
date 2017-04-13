@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   resources :account_activations, only: [:edit]
 
   resources :projects, only: [:index,:destroy]
+  
   get '/new', to: 'users#new'
 
   get '/projects/:iid/edit', to: 'projects#edit'

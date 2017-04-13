@@ -2,23 +2,27 @@
 <% if @project.issues.nil? %>
 
 <% else %>
-	<% @project.issues.each do |pr| %>
-		<% assign = User.find(pr.assign_id) %>
-		<% user = User.find(current_user.id) %>
-		<div class="row">
-			<div class="col-md-6">
-				<p>Subject: <%= link_to pr.issue_name, "show_issue_create/#{pr.id}" %></p>
-				Decription: <%= simple_format(pr.issue_decription) %><br/>
-			</div>
-			<div class="col-md-6">
-				<% user = User.find(pr.user_id) %>
-				<strong>Creator :</strong> <%= user.account %><br/>
-				<strong>Assign:</strong> <%= assign.account %><br/>
-			</div>
-		</div>
-		
-		
-		<br/>
-		<br/>
-	<% end %>
+	<table class="table table-striped">
+		<thead>
+			<th>Subject</th>
+			<th>Status</th>
+			<th>Priority</th>
+			<th>Creator</th>
+			<th>Assign</th>
+		</thead>
+		<% @project.issues.each do |pr| %>
+			<% assign = User.find(pr.assign_id) %>
+			<% user = User.find(current_user.id) %>
+			<% users = User.find(pr.user_id) %>
+			<tbody>
+				<tr>
+					<td><%= link_to pr.issue_name, "show_issue_create/#{pr.id}" %></td>
+					<td>New</td>
+					<td>Normal</td>
+					<td><%= users.account %></td>
+					<td><%= assign.account %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
 <% end %>
