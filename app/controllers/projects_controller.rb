@@ -9,11 +9,12 @@ class ProjectsController < ApplicationController
 	def create
 		@project = Project.new(params_project)
 		user = User.find(@project.user_id)
+		pro = Project.first
 		if @project.valid?
 			flash.now[:success] = "Create project success"
 			@project.save
 			@relation = Relation.create(assign_id: @project.user_id, project_id: @project.id)
-			redirect_to "/users/#{user.id}"
+			redirect_to pro
 		else
 			render 'new'
 		end

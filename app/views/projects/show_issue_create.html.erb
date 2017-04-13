@@ -1,17 +1,73 @@
-<% provide(:title, "Issue - #{@issue.id}") %>
-<% assign = User.find(@issue.assign_id) %>
-<div class="row">
-	<div class="col-md-6">
-		<p>Subject: <%= @issue.issue_name %><br/></p>
-		<p>Decription: <%= simple_format(@issue.issue_decription) %><br/></p>
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+	table, tr, td{
+		border: 1px solid #EEE;
+		padding-left: 10px;
+	}
+	.row1 > .td1{
+		width: 150px;
+		height: 40px;
+	}
+	.row1 > .td2{
+		width: 250px;
+	}
+	.row2, .row3, .row4{
+		height: 40px;
+	}
+	p{
+		margin-top: 10px;
+	}
+</style>
+</head>
+<body>
+	<% provide(:title, "Issue - #{@issue.id}") %>
+	<% assign = User.find(@issue.assign_id) %>
+	<% user = User.find(@issue.user_id) %>
+	<p>Subject: <%= @issue.issue_name %><br/></p>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<table style="box-shadow: 0 0 10px rgba(0,0,0,0.5);margin: 30px 0;">
+					<tr class="row1">
+						<td class="td1"><strong>Status:</strong></td>
+						<td class="td2">New</td>
+						<td class="td1"><strong>Start date:</strong></td>
+						<td class="td2"><%= @issue.start_date %></td>
+					</tr>
+					<tr class="row2">
+						<td><strong>Priority:</strong></td>
+						<td>Normal</td>
+						<td><strong>Due date:</strong></td>
+						<td><%= @issue.due_date %></td>
+					</tr>
+					<tr class="row3">
+						<td><strong>Manager:</strong></td>
+						<td><%= user.account %></td>
+						<td><strong>Developer:</strong></td>
+						<td><%= assign.account %></td>
+					</tr>
+					<tr class="row4">
+						<td><strong>Category:</strong></td>
+						<td>-</td>
+						<td><strong>Done:</strong></td>
+						<td style="padding: 0">
+							<table>
+								<tr>
+									<td style="background-color: #EEE; width: 125px; height: 40px;"></td>
+									<td style="width: 125px;">0%</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+				<% if user == current_user %>
+				<%= link_to "Edit issue", "/projects/#{@project.id}/edit_issue/#{@issue.id}", class: 'btn btn-info' %>
+				<%= link_to "Delete issue", "/projects/#{@project.id}/delete_issue/#{@issue.id}", method: :delete, data: { confirm: "Are you sure" }, class: 'btn btn-info' %>
+				<% end %>
+			</div>
+		</div>
 	</div>
-	<div class="col-md-6">
-		<% user = User.find(@issue.user_id) %>
-		<strong>Manager: </strong> <%= user.account %><br/>
-		<strong>Developer: </strong> <%= assign.account %>
-	</div>
-</div>
-<% if user == current_user %>
-<%= link_to "Edit issue", "/projects/#{@project.id}/edit_issue/#{@issue.id}", class: 'btn btn-info' %>
-<%= link_to "Delete issue", "/projects/#{@project.id}/delete_issue/#{@issue.id}", method: :delete, data: { confirm: "Are you sure" }, class: 'btn btn-info' %>
-<% end %>
+</body>
+</html>

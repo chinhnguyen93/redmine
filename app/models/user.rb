@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   has_many :issues
-  has_many :relations
+  has_many :relations, foreign_key: :assign_id
   has_many :projects, :through => :relations
 	attr_accessor :activation_token
 	before_create :create_activation_digest
