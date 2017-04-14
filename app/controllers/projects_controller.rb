@@ -42,8 +42,8 @@ class ProjectsController < ApplicationController
 	def destroy
 		project = Project.find(params[:id])
 		project.destroy
-		flash.now[:success] = "Project deleted"
-		redirect_to "/users/#{project.user_id}"
+		flash[:success] = "Project deleted"
+		redirect_to current_user
 	end
 
 	def new_issue
@@ -55,7 +55,7 @@ class ProjectsController < ApplicationController
 		@project = Project.find(params[:iid])
 		@issue = Issue.new(params_issue)
 		if @issue.save
-			flash.now[:success] = "Create issue success"
+			flash[:success] = "Create issue success"
 			redirect_to "/projects/#{@project.id}/show_issue"
 		else
 			redirect_to "/projects/#{@project.id}/new_issue"
@@ -98,7 +98,7 @@ class ProjectsController < ApplicationController
 	end
 
 	def correct_user
-		project = Project.find(params[:iid])
+		project = Project.find(params[:id])
 		user = User.find(project.user_id)
     return true if current_user == user
     flash[:danger] = "You cant edit another user"
