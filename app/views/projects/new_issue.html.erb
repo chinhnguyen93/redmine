@@ -15,10 +15,23 @@
     
       <br/>
       <% users = User.all %>
-      <%= f.label :assign_id %>
-      <%= f.select :assign_id, options_for_select(users.map{ |us| [us.account, us.id] }), class: 'form-control' %>
+      <div class="row">
+        <div class="col-md-4 col1">
+          <%= f.label :assign_id %>
+          <%= f.select :assign_id, options_for_select(users.map{ |us| [us.account, us.id] }), class: 'form-control' %>
+        </div>
 
-      <br/>
+        <div class="col-md-4 col2">
+          <%= f.label :status %>
+          <%= f.select :status, options_for_select(@status.map{ |st| [st] })%>
+        </div>
+
+        <div class="col-md-4 col3">
+          <%= f.label :priority %>
+          <%= f.select :priority, options_for_select(@priority.map{ |pr| [pr] }, @priority[1]) %>
+        </div>     
+      </div>
+
       <br/>
       
       <%= f.label :start_date %>

@@ -49,6 +49,8 @@ class ProjectsController < ApplicationController
 	def new_issue
 		@issue = Issue.new
 		@project = Project.find(params[:iid])
+		@status = ['New', 'Inprogress', 'Resolved', 'Closed']
+		@priority = ['Low','Normal','Hight','Urgent','Immediate']
 	end
 
 	def create_issue
@@ -74,6 +76,8 @@ class ProjectsController < ApplicationController
 	def edit_issue
 		@project = Project.find(params[:iid])
 		@issue = Issue.find(params[:id])
+		@status = ['New', 'Inprogress', 'Resolved', 'Closed']
+		@priority = ['Low','Normal','Hight','Urgent','Immediate']
 	end
 
 	def update_issue
@@ -120,6 +124,6 @@ class ProjectsController < ApplicationController
 			params.require(:project).permit(:project_name,:description)
 		end
 		def params_issue
-			params.require(:issue).permit(:issue_name,:issue_decription,:assign_id,:project_id,:user_id,:start_date,:due_date)
+			params.require(:issue).permit(:issue_name,:issue_decription,:assign_id,:project_id,:user_id,:status,:priority,:start_date,:due_date)
 		end
 end

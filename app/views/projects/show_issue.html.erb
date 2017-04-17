@@ -17,8 +17,8 @@
 			<tbody>
 				<tr>
 					<td><%= link_to pr.issue_name, "show_issue_create/#{pr.id}" %></td>
-					<td>New</td>
-					<td>Normal</td>
+					<td><%= pr.status %></td>
+					<td><%= pr.priority %></td>
 					<td><%= users.account %></td>
 					<td><%= assign.account %></td>
 				</tr>
