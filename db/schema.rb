@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170417023451) do
+ActiveRecord::Schema.define(version: 20170418063507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 20170417023451) do
     t.integer  "project_id"
     t.string   "status"
     t.string   "priority"
+  end
+
+  create_table "logs", force: :cascade do |t|
+    t.integer  "issue_id"
+    t.string   "log_description"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "log_status"
+    t.string   "log_priority"
+    t.index ["issue_id"], name: "index_logs_on_issue_id", using: :btree
   end
 
   create_table "projects", force: :cascade do |t|
@@ -55,4 +65,5 @@ ActiveRecord::Schema.define(version: 20170417023451) do
     t.datetime "activated_at"
   end
 
+  add_foreign_key "logs", "issues"
 end

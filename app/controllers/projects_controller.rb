@@ -9,12 +9,11 @@ class ProjectsController < ApplicationController
 	def create
 		@project = Project.new(params_project)
 		user = User.find(@project.user_id)
-		pro = Project.first
 		if @project.valid?
 			flash.now[:success] = "Create project success"
 			@project.save
 			@relation = Relation.create(assign_id: @project.user_id, project_id: @project.id)
-			redirect_to pro
+			redirect_to @project
 		else
 			render 'new'
 		end
@@ -57,6 +56,7 @@ class ProjectsController < ApplicationController
 		@project = Project.find(params[:iid])
 		@issue = Issue.new(params_issue)
 		if @issue.save
+			Log.create(issue_id: @issue.id,log_status: @issue.status,log_priority: @issue.priority)
 			flash[:success] = "Create issue success"
 			redirect_to "/projects/#{@project.id}/show_issue"
 		else
@@ -84,6 +84,7 @@ class ProjectsController < ApplicationController
 		@project = Project.find(params[:iid])
 		@issue = Issue.find(params[:id])
 		if @issue.update_attributes(params_issue)
+			Log.create(issue_id: @issue.id,log_status: @issue.status,log_priority: @issue.priority)
 			flash.now[:success] = "Your issue is successfull updated"
 			render 'show_issue_create'
 		else
