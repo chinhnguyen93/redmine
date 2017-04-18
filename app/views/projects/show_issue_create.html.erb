@@ -70,5 +70,26 @@
 		</div>
 	</div>
 	<p>History:</p>
+	<% log = Log.where(issue_id: @issue.id) %>
+	<% for i in 0...log.count %>
+		<% issue = Issue.find(log[i].issue_id) %>
+		<% user = User.find(issue.user_id) %>
+		<% if i == 0 %>
+			<strong>Created by</strong> <%= user.account %><%= " " %><%= distance_of_time_in_words(log[i].updated_at.time,Time.now) %> <strong>ago</strong>
+		<hr>
+		<% else %>
+			<strong>Updated by</strong> <%= user.account %><%= " " %><%= distance_of_time_in_words(log[i].updated_at.time,Time.now) %> <strong>ago</strong>
+			<% if log[i-1].log_status != log[i].log_status && log[i-1].log_priority != log[i].log_priority %>
+				<p>Status changed from <%= log[i-1].log_status %> to <%= log[i].log_status %></p>
+				<p>Priority changed from <%= log[i-1].log_priority %> to <%= log[i].log_priority %> </p>
+			<% elsif log[i-1].log_status != log[i].log_status %>
+				<p>Status changed from <%= log[i-1].log_status %> to <%= log[i].log_status %></p>
+			<% elsif log[i-1].log_priority != log[i].log_priority %>
+				<p>Priority changed from <%= log[i-1].log_priority %> to <%= log[i].log_priority %> </p>
+			<% else %>
+			<% end %>
+			<hr>
+		<% end %>
+	<% end %>
 </body>
 </html>
