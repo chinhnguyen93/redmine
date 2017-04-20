@@ -1,0 +1,16 @@
+I"(function() {
+  jQuery(function() {
+    return $('.btnr').click(function() {
+      return $.get({
+        url: "/projects/2",
+        success: ketqua
+      }, function() {
+        return alert("hihi");
+      }, {
+        datatype: "html"
+      });
+    });
+  });
+
+}).call(this);
+:ET

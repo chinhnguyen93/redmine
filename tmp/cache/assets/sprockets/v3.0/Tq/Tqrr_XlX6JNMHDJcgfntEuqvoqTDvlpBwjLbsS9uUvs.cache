@@ -1,0 +1,9 @@
+I"‡(function() {
+  jQuery(function() {
+    return $('.btnr').click(function() {
+      return alert('sida');
+    });
+  });
+
+}).call(this);
+:ET

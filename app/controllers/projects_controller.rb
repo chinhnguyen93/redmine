@@ -1,4 +1,5 @@
 class ProjectsController < ApplicationController
+  include ActionView::Helpers::DateHelper
 	skip_before_filter :verify_authenticity_token, only: [:create]
 	before_action :correct_user, only: [:edit, :update, :destroy]
 	before_action :correct_user_issue, only: [:edit_issue, :update_issue, :destroy_issue]
@@ -20,15 +21,20 @@ class ProjectsController < ApplicationController
 	end
 
 	def show
-		@project = Project.find(params[:iid])
+		@project = Project.find_by(id: params[:iid])
+			if !@project
+				flash[:danger] = "Nothing"
+				redirect_to root_url
+			else
+			end
 	end
 
 	def edit
-		@project = Project.find(params[:iid])
+		@project = Project.find_by(id: params[:iid])
 	end
 
 	def update
-		@project = Project.find(params[:iid])
+		@project = Project.find_by(id: params[:iid])
 		if @project.update_attributes(params_project_edit)
 			flash.now[:success] = "Your project is successfull updated"
 			render 'show'
@@ -67,6 +73,31 @@ class ProjectsController < ApplicationController
 	def show_issue_create
 		@issue = Issue.find(params[:id])
 		@project = Project.find(params[:iid])
+    log = Log.where(issue_id: @issue.id)
+    for i in 0...log.count
+      issue = Issue.find(log[i].issue_id)
+      user = User.find(issue.user_id)
+      tim = distance_of_time_in_words(log[i].updated_at.time, Time.now)
+      if i == 0
+        @create = "<strong>Created</strong> by #{user.account} #{tim} ago"
+      else
+        if log[i-1].log_status != log[i].log_status && log[i-1].log_priority != log[i].log_priority
+          @update = "<strong>Updated</strong> by #{user.account} #{tim} ago"
+          @status = "<strong>Status</strong> changed from <strong>#{log[i-1].log_status}</strong> to <strong>#{log[i].log_status}</strong>"
+          @priority = "<strong>Priority</strong> changed from <strong>#{log[i-1].log_priority}</strong> to <strong>#{log[i].log_priority}</strong>"
+
+        elsif log[i-1].log_status != log[i].log_status
+          @update = "<strong>Updated</strong> by #{user.account} #{tim} ago"
+          @status = "<strong>Status</strong> changed from <strong>#{log[i-1].log_status}</strong> to <strong>#{log[i].log_status}</strong>"
+
+        elsif log[i-1].log_priority != log[i].log_priority
+          @update = "<strong>Updated</strong> by #{user.account} #{tim} ago"
+          @priority = "<strong>Priority</strong> changed from <strong>#{log[i-1].log_priority}</strong> to <strong>#{log[i].log_priority}</strong>"
+
+        else
+        end
+      end
+    end
 	end
 
 	def show_issue

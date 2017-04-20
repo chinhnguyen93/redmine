@@ -1,0 +1,16 @@
+I"Z(function() {
+  jQuery(function() {
+    return $('.btnr').click(function() {
+      return $.get({
+        url: "/projects/2",
+        success: function(ketqua) {
+          $('#hero').html($(ketqua).find('#nghich').clone());
+          return $('.btn.btn-info').remove();
+        },
+        datatype: "html"
+      });
+    });
+  });
+
+}).call(this);
+:ET

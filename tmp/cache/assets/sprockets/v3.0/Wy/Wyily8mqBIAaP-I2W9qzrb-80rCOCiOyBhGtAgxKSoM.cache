@@ -1,0 +1,15 @@
+I"(function() {
+  jQuery(function() {
+    return $('.btnr').click(function() {
+      return $.get({
+        url: "/projects/2",
+        success: function(ketqua) {
+          return $('#hero').html(ketqua);
+        },
+        datatype: "html"
+      });
+    });
+  });
+
+}).call(this);
+:ET

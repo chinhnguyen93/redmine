@@ -1,0 +1,7 @@
+I"Z(function() {
+  jQuery(function() {
+    return alert("ahihi");
+  });
+
+}).call(this);
+:ET
