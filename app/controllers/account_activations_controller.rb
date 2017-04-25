@@ -11,5 +11,6 @@ class AccountActivationsController < ApplicationController
       flash[:danger] = "Invalid activation link"
       redirect_to root_url
     end
+    # binding.pry
 	end
 end

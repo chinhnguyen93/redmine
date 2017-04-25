@@ -1,8 +1,8 @@
 class ProjectsController < ApplicationController
   include ActionView::Helpers::DateHelper
-	skip_before_filter :verify_authenticity_token, only: [:create]
+	skip_before_filter :verify_authenticity_token
 	before_action :correct_user, only: [:edit, :update, :destroy]
-	before_action :correct_user_issue, only: [:edit_issue, :update_issue, :destroy_issue]
+	# before_action :correct_user_issue, only: [:edit_issue, :update_issue, :destroy_issue]
 	def new
 		@project = Project.new
 		@user = User.find(params[:id])
@@ -30,11 +30,11 @@ class ProjectsController < ApplicationController
 	end
 
 	def edit
-		@project = Project.find_by(id: params[:iid])
+		@project = Project.find_by(id: params[:id])
 	end
 
 	def update
-		@project = Project.find_by(id: params[:iid])
+		@project = Project.find_by(id: params[:id])
 		if @project.update_attributes(params_project_edit)
 			flash.now[:success] = "Your project is successfull updated"
 			render 'show'
@@ -56,13 +56,18 @@ class ProjectsController < ApplicationController
 		@project = Project.find(params[:iid])
 		@status = ['New', 'Inprogress', 'Resolved', 'Closed']
 		@priority = ['Low','Normal','Hight','Urgent','Immediate']
+		@rela = Relation.where(project_id: @project.id)
+		@assign = []
+		@rela.each.with_index do |rela,i|
+      @assign[i] = User.find_by(id: rela.assign_id)
+    end
 	end
 
 	def create_issue
 		@project = Project.find(params[:iid])
 		@issue = Issue.new(params_issue)
 		if @issue.save
-			Log.create(issue_id: @issue.id,log_status: @issue.status,log_priority: @issue.priority)
+			Log.create(issue_id: @issue.id,creator_id: current_user.id,log_status: @issue.status,log_priority: @issue.priority)
 			flash[:success] = "Create issue success"
 			redirect_to "/projects/#{@project.id}/show_issue"
 		else
@@ -72,27 +77,32 @@ class ProjectsController < ApplicationController
 
 	def show_issue_create
 		@issue = Issue.find(params[:id])
+		@user = User.find(@issue.user_id)
 		@project = Project.find(params[:iid])
-    log = Log.where(issue_id: @issue.id)
-    for i in 0...log.count
-      issue = Issue.find(log[i].issue_id)
-      user = User.find(issue.user_id)
-      tim = distance_of_time_in_words(log[i].updated_at.time, Time.now)
+    @log = Log.where(issue_id: @issue.id)
+    @update = []
+    @status = []
+    @priority = []
+    for i in 0...@log.count
+      issue = Issue.find(@log[i].issue_id)
+      creator = User.find_by(id: @log[i].creator_id)
+      update_by = User.find_by(id: @log[i].update_by)
+      tim = distance_of_time_in_words(@log[i].updated_at.time, Time.now)
       if i == 0
-        @create = "<strong>Created</strong> by #{user.account} #{tim} ago"
+        @create = "<strong>Created</strong> by #{creator.account} #{tim} ago"
       else
-        if log[i-1].log_status != log[i].log_status && log[i-1].log_priority != log[i].log_priority
-          @update = "<strong>Updated</strong> by #{user.account} #{tim} ago"
-          @status = "<strong>Status</strong> changed from <strong>#{log[i-1].log_status}</strong> to <strong>#{log[i].log_status}</strong>"
-          @priority = "<strong>Priority</strong> changed from <strong>#{log[i-1].log_priority}</strong> to <strong>#{log[i].log_priority}</strong>"
+        if @log[i-1].log_status != @log[i].log_status && @log[i-1].log_priority != @log[i].log_priority
+          @update[i] = "<strong>Updated</strong> by #{update_by.account} #{tim} ago"
+          @status[i] = "<strong>Status</strong> changed from <strong>#{@log[i-1].log_status}</strong> to <strong>#{@log[i].log_status}</strong>"
+          @priority[i] = "<strong>Priority</strong> changed from <strong>#{@log[i-1].log_priority}</strong> to <strong>#{@log[i].log_priority}</strong>"
 
-        elsif log[i-1].log_status != log[i].log_status
-          @update = "<strong>Updated</strong> by #{user.account} #{tim} ago"
-          @status = "<strong>Status</strong> changed from <strong>#{log[i-1].log_status}</strong> to <strong>#{log[i].log_status}</strong>"
+        elsif @log[i-1].log_status != @log[i].log_status
+          @update[i] = "<strong>Updated</strong> by #{update_by.account} #{tim} ago"
+          @status[i] = "<strong>Status</strong> changed from <strong>#{@log[i-1].log_status}</strong> to <strong>#{@log[i].log_status}</strong>"
 
-        elsif log[i-1].log_priority != log[i].log_priority
-          @update = "<strong>Updated</strong> by #{user.account} #{tim} ago"
-          @priority = "<strong>Priority</strong> changed from <strong>#{log[i-1].log_priority}</strong> to <strong>#{log[i].log_priority}</strong>"
+        elsif @log[i-1].log_priority != @log[i].log_priority
+          @update[i] = "<strong>Updated</strong> by #{update_by.account} #{tim} ago"
+          @priority[i] = "<strong>Priority</strong> changed from <strong>#{@log[i-1].log_priority}</strong> to <strong>#{@log[i].log_priority}</strong>"
 
         else
         end
@@ -107,17 +117,24 @@ class ProjectsController < ApplicationController
 	def edit_issue
 		@project = Project.find(params[:iid])
 		@issue = Issue.find(params[:id])
+		@user = User.find(@issue.user_id)
+		@current_assign = User.find_by(id: @issue.assign_id)
 		@status = ['New', 'Inprogress', 'Resolved', 'Closed']
 		@priority = ['Low','Normal','Hight','Urgent','Immediate']
+		@rela = Relation.where(project_id: @project.id)
+		@assign = []
+		@rela.each.with_index do |rela,i|
+      @assign[i] = User.find_by(id: rela.assign_id)
+    end
 	end
 
 	def update_issue
 		@project = Project.find(params[:iid])
 		@issue = Issue.find(params[:id])
 		if @issue.update_attributes(params_issue)
-			Log.create(issue_id: @issue.id,log_status: @issue.status,log_priority: @issue.priority)
+			Log.create(issue_id: @issue.id,update_by: current_user.id,log_status: @issue.status,log_priority: @issue.priority)
 			flash.now[:success] = "Your issue is successfull updated"
-			render 'show_issue_create'
+			redirect_to "/projects/#{@project.id}/show_issue_create/#{@issue.id}"
 		else
 			flash.now[:danger] = "Issue update fail"
 			render 'edit_issue'

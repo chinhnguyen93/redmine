@@ -27,9 +27,9 @@ Rails.application.routes.draw do
   
   get '/new', to: 'users#new'
 
-  get '/projects/:iid/edit', to: 'projects#edit'
+  get '/projects/:id/edit', to: 'projects#edit'
 
-  patch '/projects/:iid', to: 'projects#update'
+  patch '/projects/:id', to: 'projects#update'
 
   get '/users/:id/projects/new', to: 'projects#new'
 

@@ -1,15 +1,47 @@
+<style type="text/css">
+  table, tr, thead, td{
+    border: solid 1px #000;
+  }
+  td{
+    padding: 10px;
+  }
+  th{
+    text-align: center;
+  }
+</style>
 <% provide(:title,"Add developer") %>
 <h1>Add developer</h1>
 <div class="row">
   <div class="col-md-4 col-md-offset-4">
   	<% @project = Project.find(params[:id]) %>
     <%= form_for(@relation, url: "/projects/#{@project.id}/add_developers", method: :post) do |f| %>
-    <% users = User.all %>
 		<%= f.label :add_developer %>
-    <%= f.select :assign_id, options_for_select(users.map{ |us| [us.account, us.id] }), class: 'form-control' %>
+    <%= f.select :assign_id, options_for_select(@exist.map{ |us| [us.account, us.id] }), class: 'form-control' %>
 
     <%= f.hidden_field :project_id, :value => @project.id %>
     <%= f.submit "Add developer", class: "btn btn-info str" %>
     <% end %>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <table style="box-shadow: 0 0 10px rgba(0,0,0,0.5);margin: 30px 0;width: 100%;">
+        <thead>
+          <tr>
+            <th>Joined</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @assign.each do |ass| %>
+            <tr>
+              <td>
+                <%= ass.account %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

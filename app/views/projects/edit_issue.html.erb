@@ -13,11 +13,10 @@
 
     
       <br/>
-      <% users = User.all %>
       <div class="row">
         <div class="col-md-4 col1">
           <%= f.label :assign_id %>
-          <%= f.select :assign_id, options_for_select(users.map{ |us| [us.account, us.id] }), class: 'form-control' %>
+          <%= f.select :assign_id, options_for_select(@assign.map{ |us| [us.account, us.id] }, @current_assign.id), class: 'form-control' %>
         </div>
 
         <div class="col-md-4 col2">
@@ -36,7 +35,7 @@
 
       <%= f.hidden_field :project_id, :value => @project.id,class: 'form-control' %>
 
-      <%= f.hidden_field :user_id, :value => @project.user_id,class: 'form-control' %>
+      <%= f.hidden_field :user_id, :value => @user.id,class: 'form-control' %>
 
       <%= f.label :due_date, class: 'str' %>
       <%= f.date_select :due_date, class: 'form-control', :start_year => Time.now.year, :end_year => Time.now.year + 10 %>

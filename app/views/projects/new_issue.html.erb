@@ -1,6 +1,5 @@
 <% provide(:title,"Create issue") %>
 <h1>Create issue</h1>
-<% @project = Project.find(params[:iid]) %>
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <%= form_for(@issue, url: "create_issue", method: :post) do |f| %>
@@ -14,11 +13,10 @@
 
     
       <br/>
-      <% users = User.all %>
       <div class="row">
         <div class="col-md-4 col1">
           <%= f.label :assign_id %>
-          <%= f.select :assign_id, options_for_select(users.map{ |us| [us.account, us.id] }), class: 'form-control' %>
+          <%= f.select :assign_id, options_for_select(@assign.map{ |us| [us.account, us.id] }), class: 'form-control' %>
         </div>
 
         <div class="col-md-4 col2">

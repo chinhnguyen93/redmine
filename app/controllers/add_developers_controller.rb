@@ -1,6 +1,15 @@
 class AddDevelopersController < ApplicationController
   def new
   	@relation = Relation.new
+    project = Project.find_by(id: params[:id])
+    @rela = Relation.where(project_id: project.id)
+    users = User.all
+    @assign = []
+    @exist = []
+    @rela.each.with_index do |rela,i|
+      @assign[i] = User.find_by(id: rela.assign_id)
+    end
+    @exist = users - @assign
   end
 
   def create
